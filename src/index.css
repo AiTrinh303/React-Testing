@@ -34,6 +34,10 @@ a:hover {
   padding: 0.2rem 1rem;
   border-radius: 5px;
 }
+.btn:disabled{
+  background: #ccc;
+  color: #fff;
+}
 
 .input {
   border: 1px solid #ccc;
