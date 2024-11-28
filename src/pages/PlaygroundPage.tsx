@@ -1,9 +1,13 @@
 // import Onboarding from "../components/Onboarding";
-import TermsAndConditions from "../components/TermsAndConditions";
+// import TermsAndConditions from "../components/TermsAndConditions";
+import ExpandableText from "../components/ExpandableText";
 
 const PlaygroundPage = () => {
   // return <Onboarding />;
-  return <TermsAndConditions />;
+  // return <TermsAndConditions />;
+  return <ExpandableText text= 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique sapiente perferendis doloribus quas voluptas temporibus inventore nostrum possimus consequatur incidunt? Officia amet odit, illo suscipit fugiat praesentium ad aspernatur inventore totam velit, quam vero sit deleniti necessitatibus minus. Voluptates tenetur ex ipsum fuga voluptatum veniam, amet vitae iste cupiditate! Possimus impedit eius tempora sint! Eius deleniti enim magni laborum repellendus ipsam eum at ex porro. Sit aliquam officia repellat impedit, explicabo quasi quis, laboriosam sed tenetur dignissimos adipisci debitis. Laborum cum consectetur numquam aut doloribus doloremque rem, alias ad exercitationem fuga eveniet quaerat nihil vel omnis, dolor odit, vitae quibusdam. '/>;
 };
 
 export default PlaygroundPage;
+
+
