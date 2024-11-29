@@ -1,7 +1,7 @@
 // import Onboarding from "../components/Onboarding";
 // import TermsAndConditions from "../components/TermsAndConditions";
 // import ExpandableText from "../components/ExpandableText";
-// import SearchBox from "../components/SearchBox";
+import SearchBox from "../components/SearchBox";
 import TagList from "../components/TagList";
 
 const PlaygroundPage = () => {
