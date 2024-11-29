@@ -1,7 +1,6 @@
 // import Onboarding from "../components/Onboarding";
 // import TermsAndConditions from "../components/TermsAndConditions";
 // import ExpandableText from "../components/ExpandableText";
-import SearchBox from "../components/SearchBox";
 
 const PlaygroundPage = () => {
   // return <Onboarding />;

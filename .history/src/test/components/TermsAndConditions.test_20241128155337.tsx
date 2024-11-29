@@ -5,8 +5,11 @@ import userEvent from '@testing-library/user-event'
 
 
 describe('TermsAndConditions', () => {
+
   const renderComponent = () => {
+
     render(<TermsAndConditions />)
+
     return {
       heading: screen.getByRole('heading'),
       checkbox: screen.getByRole('checkbox'),
