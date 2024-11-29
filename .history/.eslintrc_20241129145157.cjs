@@ -10,8 +10,8 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions:{
     project: true,
-    tsconfigRootDir: __dirname,
-  },
+    ts
+  }
   plugins: ["react-refresh"],
   rules: {
     "react-refresh/only-export-components": [
