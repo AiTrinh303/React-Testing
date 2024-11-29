@@ -18,7 +18,6 @@ describe('OrderStatusSelector', () => {
             box: screen.getByRole('combobox'),
             user: userEvent.setup(),
             getOptions: () => screen.findAllByRole('option'),
-            getOption: (label: RegExp) =>screen.findByRole('option',{name: label}),
             optionChoice: optionChoice,
             fn: fn
         }
@@ -54,27 +53,16 @@ describe('OrderStatusSelector', () => {
             ])
     ('should call onChange with $value when the $label option is selected', 
         async ({label, value}) => {
-        const {box, user, fn, getOption} = renderComponent();
+        const {box, user, fn} = renderComponent();
 
         await user.click(box)
-        const option = await getOption(label)
+        const option = await screen.findByRole('option',{name: label})
         await user.click(option)
         expect(fn).toHaveBeenCalled(value)
     })
 
 
-    it('should call onChange with "new" when the New option is selected', async() => {
-        const {box, user, fn, getOption} = renderComponent();
-        await user.click(box)
-
-        const processOption = await getOption(/processed/i)
-        await user.click(processOption)
-
-        await user.click(box)
-
-        const newOption = await getOption(/new/i)
-        await user.click(newOption)
+    it('should call onChange with 'new', () => {
         
-        expect(fn).toHaveBeenCalledWith('new')
     })
 })

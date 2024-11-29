@@ -3,11 +3,10 @@ import OrderStatusSelector from '../../components/OrderStatusSelector'
 import userEvent from '@testing-library/user-event'
 import { Theme } from '@radix-ui/themes'
 
-
 describe('OrderStatusSelector', () => {
-    
+
+    const fn = vi.fn();
     const renderComponent = () => { 
-        const fn = vi.fn();
         const optionChoice = [/new/i, /processed/i, /fulfilled/i]
         render(
         <Theme>
@@ -17,12 +16,13 @@ describe('OrderStatusSelector', () => {
         return {
             box: screen.getByRole('combobox'),
             user: userEvent.setup(),
-            getOptions: () => screen.findAllByRole('option'),
-            getOption: (label: RegExp) =>screen.findByRole('option',{name: label}),
-            optionChoice: optionChoice,
-            fn: fn
+            getOptions: () => screen.findAllByRole('option')
+            optionChoice: optionChoice
+            
         }
     }
+    
+
 
     it('should render New as a default value', () => {
         const {box} = renderComponent()
@@ -48,33 +48,12 @@ describe('OrderStatusSelector', () => {
         })   
     })
 
-    it.each([ { label: /processed/i, value: 'processed' },
-              { label: /fulfilled/i, value: 'fulfilled' }
-            //   { label: /new/i, value: 'new' }
-            ])
-    ('should call onChange with $value when the $label option is selected', 
-        async ({label, value}) => {
-        const {box, user, fn, getOption} = renderComponent();
+    it('should call onChange with processed when the Processed option is selected',async () => {
+        const {box, user} = renderComponent();
 
         await user.click(box)
-        const option = await getOption(label)
-        await user.click(option)
-        expect(fn).toHaveBeenCalled(value)
-    })
-
-
-    it('should call onChange with "new" when the New option is selected', async() => {
-        const {box, user, fn, getOption} = renderComponent();
-        await user.click(box)
-
-        const processOption = await getOption(/processed/i)
-        await user.click(processOption)
-
-        await user.click(box)
-
-        const newOption = await getOption(/new/i)
-        await user.click(newOption)
-        
-        expect(fn).toHaveBeenCalledWith('new')
+        const processedOption = await screen.findByText(/processed/i)
+        await user.click(processedOption)
+        expect(fn).toHaveBeenCalledWith('processed')
     })
 })

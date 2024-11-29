@@ -3,7 +3,6 @@ import OrderStatusSelector from '../../components/OrderStatusSelector'
 import userEvent from '@testing-library/user-event'
 import { Theme } from '@radix-ui/themes'
 
-
 describe('OrderStatusSelector', () => {
     
     const renderComponent = () => { 
@@ -18,7 +17,6 @@ describe('OrderStatusSelector', () => {
             box: screen.getByRole('combobox'),
             user: userEvent.setup(),
             getOptions: () => screen.findAllByRole('option'),
-            getOption: (label: RegExp) =>screen.findByRole('option',{name: label}),
             optionChoice: optionChoice,
             fn: fn
         }
@@ -49,32 +47,13 @@ describe('OrderStatusSelector', () => {
     })
 
     it.each([ { label: /processed/i, value: 'processed' },
-              { label: /fulfilled/i, value: 'fulfilled' }
-            //   { label: /new/i, value: 'new' }
-            ])
-    ('should call onChange with $value when the $label option is selected', 
-        async ({label, value}) => {
-        const {box, user, fn, getOption} = renderComponent();
+              { label: /fulfilled/i, value: 'fulfilled' },
+              { label: /new/i, value: 'new' }
+    ])('should call onChange with value when the label option is selected', 
+        async () => {
+        const {box, user, getOptions} = renderComponent();
 
         await user.click(box)
-        const option = await getOption(label)
-        await user.click(option)
-        expect(fn).toHaveBeenCalled(value)
-    })
-
-
-    it('should call onChange with "new" when the New option is selected', async() => {
-        const {box, user, fn, getOption} = renderComponent();
-        await user.click(box)
-
-        const processOption = await getOption(/processed/i)
-        await user.click(processOption)
-
-        await user.click(box)
-
-        const newOption = await getOption(/new/i)
-        await user.click(newOption)
-        
-        expect(fn).toHaveBeenCalledWith('new')
+        const option = await screen.findByRole()
     })
 })

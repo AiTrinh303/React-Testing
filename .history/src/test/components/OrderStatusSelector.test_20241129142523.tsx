@@ -54,27 +54,16 @@ describe('OrderStatusSelector', () => {
             ])
     ('should call onChange with $value when the $label option is selected', 
         async ({label, value}) => {
-        const {box, user, fn, getOption} = renderComponent();
+        const {box, user, fn} = renderComponent();
 
         await user.click(box)
-        const option = await getOption(label)
+        const option = await getOption
         await user.click(option)
         expect(fn).toHaveBeenCalled(value)
     })
 
 
     it('should call onChange with "new" when the New option is selected', async() => {
-        const {box, user, fn, getOption} = renderComponent();
-        await user.click(box)
-
-        const processOption = await getOption(/processed/i)
-        await user.click(processOption)
-
-        await user.click(box)
-
-        const newOption = await getOption(/new/i)
-        await user.click(newOption)
         
-        expect(fn).toHaveBeenCalledWith('new')
     })
 })
