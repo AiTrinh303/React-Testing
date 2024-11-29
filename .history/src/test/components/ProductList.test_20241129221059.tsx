@@ -23,21 +23,13 @@ describe('ProductList', () =>{
         render(<ProductList />);
         const items = await screen.findAllByRole('listitem');
         expect(items.length).toBeGreaterThan(0);
-    })
+    })Produ
 
     it('should render no products available if no product is found',async () => {
         server.use(http.get('/products', () => HttpResponse.json([])));
         render(<ProductList />);
         const message = await screen.findByText(/No products available./i);
         expect(message).toBeInTheDocument();
-    })
-
-    it('should render an error message when there is an error',async () => {
-        server.use(http.get('/products', () => HttpResponse.error()));
-        render(<ProductList />);
-        const errorMessage =await screen.findByText(/Error:/i);
-        expect(errorMessage).toBeInTheDocument();
-
     })
 
 

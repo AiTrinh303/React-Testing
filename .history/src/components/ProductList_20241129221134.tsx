@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import axios, { AxiosError } from "axios";
@@ -17,8 +16,7 @@ const ProductList = () => {
         const { data } = await axios.get("/products");
         setProducts(data);
         setLoading(false);
-      } 
-      catch (error) {
+      } catch (error) {
         setLoading(false);
         if (error instanceof AxiosError) setError(error.message);
         else setError("An unexpected error occurred");

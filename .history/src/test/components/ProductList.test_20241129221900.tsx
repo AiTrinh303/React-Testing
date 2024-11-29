@@ -36,7 +36,6 @@ describe('ProductList', () =>{
         server.use(http.get('/products', () => HttpResponse.error()));
         render(<ProductList />);
         const errorMessage =await screen.findByText(/Error:/i);
-        expect(errorMessage).toBeInTheDocument();
 
     })
 
