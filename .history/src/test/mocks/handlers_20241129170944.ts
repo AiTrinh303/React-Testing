@@ -8,15 +8,15 @@ export const handlers = [
     }),
 
     http.get('/products', () => {
-        return HttpResponse.json(products)
+        return HttpResponse.json([
+            {id: 1, name: 'Product 1'},
+            {id: 2, name: 'Product 2'},
+            {id: 3, name: 'Product 3'},
+        ])
     }),  
 
     http.get('/products/:id', ({params}) => {
         const {id} = params;
-        const product = products.find(product => product.id === Number(id));
-        if (!product){
-            return new HttpResponse(null, {status: 404});            
-        }
-        return HttpResponse.json(product);
+        const 
     })
 ];

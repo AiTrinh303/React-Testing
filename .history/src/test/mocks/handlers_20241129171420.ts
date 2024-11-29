@@ -15,8 +15,8 @@ export const handlers = [
         const {id} = params;
         const product = products.find(product => product.id === Number(id));
         if (!product){
-            return new HttpResponse(null, {status: 404});            
+            return 
         }
-        return HttpResponse.json(product);
+
     })
 ];
