@@ -13,7 +13,7 @@ const PlaygroundPage = () => {
   // return <SearchBox onChange={(text) => console.log(text)} />;
   // return <TagList />;
   // return <ToastDemo />;
-  return <OrderStatusSelector onChange={console.log} />;
+  return <OrderStatusSelector onChange={console.lo} />;
 };
 
 export default PlaygroundPage;

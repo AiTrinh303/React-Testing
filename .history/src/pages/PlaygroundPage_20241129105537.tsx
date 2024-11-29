@@ -2,7 +2,6 @@
 // import TermsAndConditions from "../components/TermsAndConditions";
 // import ExpandableText from "../components/ExpandableText";
 // import SearchBox from "../components/SearchBox";
-import OrderStatusSelector from "../components/OrderStatusSelector";
 import TagList from "../components/TagList";
 import ToastDemo from "../components/ToastDemo";
 
@@ -13,7 +12,7 @@ const PlaygroundPage = () => {
   // return <SearchBox onChange={(text) => console.log(text)} />;
   // return <TagList />;
   // return <ToastDemo />;
-  return <OrderStatusSelector onChange={console.log} />;
+  return <OrderStatusSelector
 };
 
 export default PlaygroundPage;

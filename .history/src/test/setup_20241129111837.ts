@@ -1,13 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import ResizeObserver from 'resize-observer-polyfill';
 
-global.ResizeObserver = ResizeObserver;
-
-// window.PointerEvent = class PointerEvent extends Event {};
-window.HTMLElement.prototype.scrollIntoView = vi.fn();
-window.HTMLElement.prototype.hasPointerCapture = vi.fn();
-window.HTMLElement.prototype.releasePointerCapture = vi.fn();
-
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation(query => ({
@@ -22,3 +15,14 @@ Object.defineProperty(window, 'matchMedia', {
     })),
   })
 
+  const ro = new ResizeObserver((entries, observer) => {
+    for (const entry of entries) {
+        const {left, top, width, height} = entry.contentRect;
+ 
+        console.log('Element:', entry.target);
+        console.log(`Element's size: ${ width }px x ${ height }px`);
+        console.log(`Element's paddings: ${ top }px ; ${ left }px`);
+    }
+});
+ 
+ro.observe(document.body);  
