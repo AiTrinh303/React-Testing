@@ -10,7 +10,7 @@ import { db } from './db';
 
 
 export const handlers = [
-    ...db.product.toHandlers('rest'),
+    ...db.product.toHandlers(('rest')),
 
     // http.get('/categories', () => {
     //     return HttpResponse.json(products)

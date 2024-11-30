@@ -56,10 +56,7 @@ describe('ProductList', () =>{
         await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
     })
 
-    it('should remove the loading indicator after data fetching fails',async () => {
-        server.use(http.get('/products', () => HttpResponse.error()));
-        render(<ProductList />);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
+    it('should', () => {
+        
     })
 })

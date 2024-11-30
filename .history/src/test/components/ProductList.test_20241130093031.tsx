@@ -1,7 +1,7 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ProductList from '../../components/ProductList';
 import { server } from '../mocks/server';
-import {http, HttpResponse, delay} from 'msw';
+import {http, HttpResponse} from 'msw';
 import { db } from '../mocks/db';
 
 describe('ProductList', () =>{
@@ -39,27 +39,7 @@ describe('ProductList', () =>{
         expect(errorMessage).toBeInTheDocument();
     })
 
-    it('should render a loading indicator when fetching data', async() => {
-        server.use(http.get('/products', async() => {
-            await delay ();
-            return HttpResponse.json([]);
-        }))
-
-        render(<ProductList />);
-        const loading = await screen.findByText(/Loading.../i);
-        expect(loading).toBeInTheDocument();
-    })
-
-    it('should remove the loading indicator after data is fetched', async() => {
-        render(<ProductList />);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
-    })
-
-    it('should remove the loading indicator after data fetching fails',async () => {
-        server.use(http.get('/products', () => HttpResponse.error()));
-        render(<ProductList />);
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
+    it('should render a loading indicator when fetching data', () => {
+        
     })
 })

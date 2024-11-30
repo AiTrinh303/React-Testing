@@ -21,11 +21,6 @@ describe('ProductDetail', () => {
         const product = db.product.findFirst({where: {id: {equals: productId}}});
 
         // render(<ProductDetail productId={1} />)
-        // const productName = await screen.findByText(new RegExp(products[0].name))
-        // expect(productName).toBeInTheDocument()
-
-        // const productPrice = await screen.findByText(new RegExp(products[0].price.toString()))
-        // expect(productPrice).toBeInTheDocument()
 
         render(<ProductDetail productId={productId} />)
 
