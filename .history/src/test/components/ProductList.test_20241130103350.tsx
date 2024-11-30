@@ -3,7 +3,6 @@ import ProductList from '../../components/ProductList';
 import { server } from '../mocks/server';
 import {http, HttpResponse, delay} from 'msw';
 import { db } from '../mocks/db';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 describe('ProductList', () =>{
 
@@ -20,38 +19,24 @@ describe('ProductList', () =>{
         db.product.deleteMany({where: {id: {in: productIds}}});
     })
 
-    const renderComponent = () => {
-        const client = new QueryClient({
-            defaultOptions: {
-                queries: {
-                    retry: false
-                }
-            }
-        });
-        render(
-            <QueryClientProvider client={client}>
-                <ProductList />
-            </QueryClientProvider>
-        )
-    }
-       
+    const renderComponen
 
     it('should render the list of products', async() => {
-        renderComponent();
+        render(<ProductList />);
         const items = await screen.findAllByRole('listitem');
         expect(items.length).toBeGreaterThan(0);
     })
 
     it('should render no products available if no product is found',async () => {
         server.use(http.get('/products', () => HttpResponse.json([])));
-        renderComponent();
+        render(<ProductList />);
         const message = await screen.findByText(/No products available./i);
         expect(message).toBeInTheDocument();
     })
 
     it('should render an error message when there is an error',async () => {
         server.use(http.get('/products', () => HttpResponse.error()));
-        renderComponent();
+        render(<ProductList />);
         const errorMessage =await screen.findByText(/Error:/i);
         expect(errorMessage).toBeInTheDocument();
     })
@@ -62,20 +47,20 @@ describe('ProductList', () =>{
             return HttpResponse.json([]);
         }))
 
-        renderComponent();
+        render(<ProductList />);
         const loading = await screen.findByText(/Loading.../i);
         expect(loading).toBeInTheDocument();
     })
 
     it('should remove the loading indicator after data is fetched', async() => {
-        renderComponent();
+        render(<ProductList />);
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
     })
 
     it('should remove the loading indicator after data fetching fails',async () => {
         server.use(http.get('/products', () => HttpResponse.error()));
-        renderComponent();
+        render(<ProductList />);
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await waitForElementToBeRemoved(() => screen.queryByText(/Loading.../i));
     })

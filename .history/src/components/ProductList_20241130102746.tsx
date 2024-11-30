@@ -36,7 +36,7 @@ const ProductList = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {error.}</div>;
 
   if (products!.length === 0) return <p>No products available.</p>;
 

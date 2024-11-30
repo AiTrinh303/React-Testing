@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 
 const ProductList = () => {
 
-  const {data: products, error, isLoading} =  useQuery<Product[], Error>({
+  const {data: products, error, isLoading} =  useQuery<>({
     queryKey: ['products'],
     queryFn: () => axios.get<Product[]>("/products").then(res => res.data),
   })
@@ -36,7 +36,7 @@ const ProductList = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {error}</div>;
 
   if (products!.length === 0) return <p>No products available.</p>;
 

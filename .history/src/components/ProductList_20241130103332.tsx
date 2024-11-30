@@ -30,7 +30,7 @@ const ProductList = () => {
   //       if (error instanceof AxiosError) setError(error.message);
   //       else setError("An unexpected error occurred");
   //     }
-  //   };
+  //   };rend
   //   fetchProducts();
   // }, []);
 
