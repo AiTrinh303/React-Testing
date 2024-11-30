@@ -3,8 +3,7 @@ import ProductList from '../../components/ProductList';
 import { server } from '../mocks/server';
 import {http, HttpResponse, delay} from 'msw';
 import { db } from '../mocks/db';
-// import { QueryClient, QueryClientProvider } from 'react-query';
-import AllProviders from '../AllProviders';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 describe('ProductList', () =>{
 

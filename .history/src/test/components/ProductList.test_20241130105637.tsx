@@ -3,8 +3,7 @@ import ProductList from '../../components/ProductList';
 import { server } from '../mocks/server';
 import {http, HttpResponse, delay} from 'msw';
 import { db } from '../mocks/db';
-// import { QueryClient, QueryClientProvider } from 'react-query';
-import AllProviders from '../AllProviders';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 describe('ProductList', () =>{
 
@@ -80,7 +79,6 @@ describe('ProductList', () =>{
     })
 
     it('should remove the loading indicator after data fetching fails',async () => {
-        render(<ProductList />, {wrapper: AllProviders});
         server.use(http.get('/products', () => HttpResponse.error()));
         //renderComponent();
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
