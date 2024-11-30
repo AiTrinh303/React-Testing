@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 // import { useEffect, useState } from "react";
-import axios from "axios";
 import { Product } from "../entities";
 import { useQuery } from "react-query";
 
 const ProductDetail = ({ productId }: { productId: number }) => {
 
 
-  const {data:product, error, isLoading} =  useQuery<Product, Error>({
+  const {data: products, error, isLoading} =  useQuery<Product[], Error>({
     queryKey: ['products', productId],
-    queryFn: () => axios.get<Product>("/products/"+ productId).then(res => res.data),
+    queryFn: () => axios.get<Product[]>("/products").then(res => res.data),
   })
 
   // const [product, setProduct] = useState<Product | undefined>(
@@ -32,15 +31,11 @@ const ProductDetail = ({ productId }: { productId: number }) => {
   //     .finally(() => setLoading(false));
   // }, []);
 
-  if(!productId) return <div>Invalid ProductId</div>
-
   if (isLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {error}</div>;
 
   if (!product) return <div>The given product was not found.</div>;
-
- 
 
   return (
     <div>

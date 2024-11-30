@@ -32,8 +32,6 @@ const ProductDetail = ({ productId }: { productId: number }) => {
   //     .finally(() => setLoading(false));
   // }, []);
 
-  if(!productId) return <div>Invalid ProductId</div>
-
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error.message}</div>;

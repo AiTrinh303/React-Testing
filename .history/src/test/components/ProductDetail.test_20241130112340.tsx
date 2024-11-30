@@ -87,7 +87,7 @@ describe('ProductDetail', () => {
 
     it('should remove loading indicator after data is fail fetching', async() => {
         server.use(http.get('/products/1', () => HttpResponse.error()))
-        render(<ProductDetail productId={1} />, {wrapper: AllProviders})
+        render(<ProductDetail productId={1} />)
         await waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
     })
 })
