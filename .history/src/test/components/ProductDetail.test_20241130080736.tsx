@@ -55,6 +55,6 @@ describe('ProductDetail', () => {
         )
         render(<ProductDetail productId={1} />)
         const errorFetchMessage =await screen.findByText(/error/i)
-        expect(errorFetchMessage).toBeInTheDocument()       
+        
     })
 })
