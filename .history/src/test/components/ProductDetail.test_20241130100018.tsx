@@ -79,14 +79,9 @@ describe('ProductDetail', () => {
         expect(loading).toBeInTheDocument()        
     })
 
-    it('should remove loading indicator after data is fetched ', async() => {        
+    it('should remove loading indicator after data is fetched ', () => {
+        
         render(<ProductDetail productId={1} />)
-        await waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
-    })
-
-    it('should remove loading indicator after data is fail fetching', async() => {
-        server.use(http.get('/products/1', () => HttpResponse.error()))
-        render(<ProductDetail productId={1} />)
-        await waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
+        waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
     })
 })

@@ -88,5 +88,5 @@ describe('ProductDetail', () => {
         server.use(http.get('/products/1', () => HttpResponse.error()))
         render(<ProductDetail productId={1} />)
         await waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
-    })
+            })
 })
