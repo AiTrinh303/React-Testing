@@ -231,7 +231,11 @@ describe('BrowseProductsPage', () => {
     await user.click(option);
 
     //Assert
-    const products = db.product.getAll();
+    const products = db.product.getAll({
+        where: {
+            categoryId: {equals: selectedCategory.id}
+        }
+    });
     const rows = screen.getAllByRole('row');
     const dataRows = rows.slice(1);
     expect(dataRows).toHaveLength(products.length);

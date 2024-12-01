@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import {factory, manyOf, oneOf, primaryKey} from'@mswjs/data';
+import {factory, manyOf, primaryKey} from'@mswjs/data';
 import { faker } from '@faker-js/faker';
-
+import { oneOf } from 'prop-types';
 
 export const db = factory({
     category:{

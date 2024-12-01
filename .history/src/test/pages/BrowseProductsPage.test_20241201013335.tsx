@@ -9,7 +9,6 @@ import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
 import { simulateDelay, simulateError } from '../utils';
-import { isAsync } from 'zod';
 
 
 //1. Loading State
@@ -64,20 +63,10 @@ describe('BrowseProductsPage', () => {
     const categories: Category[] = [];
     const products: Product[] = [];
 
-    // beforeAll(() => {
-    //     [1,2].forEach((item) => {
-    //         categories.push(db.category.create({name: 'Category ' + item}));
-    //         products.push(db.product.create());
-    //     })
-    // })
-
     beforeAll(() => {
-        [1,2].forEach(() => {
-            const category = db.category.create();
-            categories.push(category);
-            [1,2].forEach(() =>{
-                products.push(db.product.create({categoryId: category.id}));
-            })
+        [1,2].forEach((item) => {
+            categories.push(db.category.create({name: 'Category ' + item}));
+            products.push(db.product.create());
         })
     })
     
@@ -102,7 +91,7 @@ describe('BrowseProductsPage', () => {
             getCategoriesSkeleton: () => screen.getByRole('progressbar', {name: /categories/i})
         }
     }
-//1. TESTING LOADING STATE
+//1. Loading State:
    it('should show loading skeleton when fetching categories',() => {
     // server.use(http.get('/categories', async() => {
     //     await delay ();
@@ -140,7 +129,7 @@ describe('BrowseProductsPage', () => {
    })
 
 
-//2. TESTING ERROR STATE 
+//2. Error State   
    it('should not render error but not display categories if categories cannot be fetched', async() => {
         // server.use(http.get('/categories', () => HttpResponse.error()));
         simulateError('/categories');
@@ -160,7 +149,7 @@ describe('BrowseProductsPage', () => {
     expect(errorMessage).toBeInTheDocument();    
    })
 
-//3. TESTING DATA RENDERED
+//3. Data Rendered
    it('should render list of categories', async () => {
     renderComponent();
 
@@ -189,59 +178,7 @@ describe('BrowseProductsPage', () => {
     })    
    });
 
-//4. TESTING FILTERING
-   it('should filter products by category', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
-    //Arrange
-    await waitForElementToBeRemoved(getCategoriesSkeleton);
-    const combobox = await screen.findByRole('combobox');
-    const user = userEvent.setup(); 
-    await user.click(combobox);
-
-    //Act
-    const selectedCategory = categories[0];
-    const option = await screen.findByRole('option', {name: selectedCategory.name});
-    await user.click(option);
-
-    //Assert
-    const products = db.product.findMany({
-        where: {
-            categoryId: {equals: selectedCategory.id}
-        }
-    });
-    const rows = screen.getAllByRole('row');
-    const dataRows = rows.slice(1);
-    expect(dataRows).toHaveLength(products.length);
-
-    products.forEach(product => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
-   })
-   })
-
-   it('should render all product when select All option', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
-    //Arrange
-    await waitForElementToBeRemoved(getCategoriesSkeleton);
-    const combobox = await screen.findByRole('combobox');
-    const user = userEvent.setup(); 
-    await user.click(combobox);
-
-    //Act
-    const option = await screen.findByRole('option', {name: /all/i});
-    await user.click(option);
-
-    //Assert
-    const products = db.product.getAll();
-    const rows = screen.getAllByRole('row');
-    const dataRows = rows.slice(1);
-    expect(dataRows).toHaveLength(products.length);
-
-    products.forEach(product => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
-   })
-   })
+//4. Testing Fil
 
 })
-
-
 

@@ -9,7 +9,6 @@ import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
 import { simulateDelay, simulateError } from '../utils';
-import { isAsync } from 'zod';
 
 
 //1. Loading State
@@ -227,11 +226,16 @@ describe('BrowseProductsPage', () => {
     await user.click(combobox);
 
     //Act
-    const option = await screen.findByRole('option', {name: /all/i});
+    const selectedCategory = categories[0];
+    const option = await screen.findByRole('option', {name: selectedCategory.name});
     await user.click(option);
 
     //Assert
-    const products = db.product.getAll();
+    const products = db.product.findMany({
+        where: {
+            categoryId: {equals: selectedCategory.id}
+        }
+    });
     const rows = screen.getAllByRole('row');
     const dataRows = rows.slice(1);
     expect(dataRows).toHaveLength(products.length);

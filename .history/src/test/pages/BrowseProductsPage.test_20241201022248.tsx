@@ -218,7 +218,7 @@ describe('BrowseProductsPage', () => {
    })
    })
 
-   it('should render all product when select All option', async() => {
+   it('should render all product when select All option', isAsync() => {
     const {getCategoriesSkeleton} = renderComponent();
     //Arrange
     await waitForElementToBeRemoved(getCategoriesSkeleton);
@@ -227,11 +227,16 @@ describe('BrowseProductsPage', () => {
     await user.click(combobox);
 
     //Act
-    const option = await screen.findByRole('option', {name: /all/i});
+    const selectedCategory = categories[0];
+    const option = await screen.findByRole('option', {name: selectedCategory.name});
     await user.click(option);
 
     //Assert
-    const products = db.product.getAll();
+    const products = db.product.findMany({
+        where: {
+            categoryId: {equals: selectedCategory.id}
+        }
+    });
     const rows = screen.getAllByRole('row');
     const dataRows = rows.slice(1);
     expect(dataRows).toHaveLength(products.length);

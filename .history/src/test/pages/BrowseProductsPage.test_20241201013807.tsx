@@ -9,7 +9,6 @@ import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
 import { simulateDelay, simulateError } from '../utils';
-import { isAsync } from 'zod';
 
 
 //1. Loading State
@@ -64,20 +63,10 @@ describe('BrowseProductsPage', () => {
     const categories: Category[] = [];
     const products: Product[] = [];
 
-    // beforeAll(() => {
-    //     [1,2].forEach((item) => {
-    //         categories.push(db.category.create({name: 'Category ' + item}));
-    //         products.push(db.product.create());
-    //     })
-    // })
-
     beforeAll(() => {
-        [1,2].forEach(() => {
-            const category = db.category.create();
-            categories.push(category);
-            [1,2].forEach(() =>{
-                products.push(db.product.create({categoryId: category.id}));
-            })
+        [1,2].forEach((item) => {
+            categories.push(db.category.create({name: 'Category ' + item}));
+            products.push(db.product.create());
         })
     })
     
@@ -190,58 +179,12 @@ describe('BrowseProductsPage', () => {
    });
 
 //4. TESTING FILTERING
-   it('should filter products by category', async() => {
+
+   it('should filter products by category', () => {
     const {getCategoriesSkeleton} = renderComponent();
-    //Arrange
-    await waitForElementToBeRemoved(getCategoriesSkeleton);
-    const combobox = await screen.findByRole('combobox');
-    const user = userEvent.setup(); 
-    await user.click(combobox);
 
-    //Act
-    const selectedCategory = categories[0];
-    const option = await screen.findByRole('option', {name: selectedCategory.name});
-    await user.click(option);
-
-    //Assert
-    const products = db.product.findMany({
-        where: {
-            categoryId: {equals: selectedCategory.id}
-        }
-    });
-    const rows = screen.getAllByRole('row');
-    const dataRows = rows.slice(1);
-    expect(dataRows).toHaveLength(products.length);
-
-    products.forEach(product => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
-   })
-   })
-
-   it('should render all product when select All option', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
-    //Arrange
-    await waitForElementToBeRemoved(getCategoriesSkeleton);
-    const combobox = await screen.findByRole('combobox');
-    const user = userEvent.setup(); 
-    await user.click(combobox);
-
-    //Act
-    const option = await screen.findByRole('option', {name: /all/i});
-    await user.click(option);
-
-    //Assert
-    const products = db.product.getAll();
-    const rows = screen.getAllByRole('row');
-    const dataRows = rows.slice(1);
-    expect(dataRows).toHaveLength(products.length);
-
-    products.forEach(product => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
-   })
+    
    })
 
 })
-
-
 
