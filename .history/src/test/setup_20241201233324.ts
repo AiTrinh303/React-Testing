@@ -13,8 +13,6 @@ vi.mock('auth0/auth0-react', () => {
   return {
     useAuth0: vi.fn().mockReturnValue({
       isAuthenticated: false,
-      isLoading: false,
-      user: undefined
     }),
     Auth0Provider: ({children}: PropsWithChildren) => children
   }

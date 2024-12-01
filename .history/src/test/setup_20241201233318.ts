@@ -12,9 +12,7 @@ afterAll(() => server.close());
 vi.mock('auth0/auth0-react', () => {
   return {
     useAuth0: vi.fn().mockReturnValue({
-      isAuthenticated: false,
-      isLoading: false,
-      user: undefined
+      isAuthenticated
     }),
     Auth0Provider: ({children}: PropsWithChildren) => children
   }

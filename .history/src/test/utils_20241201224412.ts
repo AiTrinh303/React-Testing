@@ -1,6 +1,7 @@
 import { http, HttpResponse, delay } from "msw";
 import { server } from "./mocks/server";
-import { useAuth0, User } from "@auth0/auth0-react";
+import { AppState, GetTokenWithPopupOptions, IdToken, LogoutOptions, PopupConfigOptions, PopupLoginOptions, RedirectLoginOptions, useAuth0, User } from "@auth0/auth0-react";
+import { RedirectLoginResult } from "@auth0/auth0-spa-js";
 
 export const simulateDelay = (endpoint: string) => {
     server.use(http.get(endpoint, async() => {
@@ -22,12 +23,13 @@ type AuthState = {
 export const mockAuthState = (authState: AuthState) => {
     vi.mocked(useAuth0).mockReturnValue({
         ...authState,
-        getAccessTokenSilently: vi.fn().mockResolvedValue('a'),
+        getAccessTokenSilently: vi.fn(),
         getAccessTokenWithPopup: vi.fn(),
         getIdTokenClaims: vi.fn(),
         loginWithRedirect: vi.fn(),
         loginWithPopup: vi.fn(),
         logout: vi.fn(),
-        handleRedirectCallback: vi.fn()
+        handleRedirectCallback: function (url?: string): Promise<RedirectLoginResult> {
+            throw new Error("Function not implemented.");
+        }
     })
-}
