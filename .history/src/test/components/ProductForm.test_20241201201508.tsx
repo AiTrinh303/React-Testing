@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { render, screen } from '@testing-library/react'
@@ -157,21 +156,20 @@ describe('ProductForm', () => {
         expect(alertText).toHaveTextContent(errorMessage)        
     })
 
-    // it.skip('should call on Submit with the correct data', async() => {
-    //     const {waitForFormToLoad, onSubmit, validData} = renderComponent();
-    //     const form = await waitForFormToLoad();
-    //     const user = userEvent.setup();
-    //     await user.type(form.inputName, validData.name)
-    //     await user.type(form.inputPrice, validData.price);
-    //     await user.click(form.combobox);
-    //     const options = screen.getAllByRole('option');
-    //     await user.click(options[0]);
-    //     await user.click(form.submitButton);
-    //     const {id, ...form} = form.validData;
-    //     expect(onSubmit).toHaveBeenCalledWith(form)
-    // })
+    it.only('should call on Submit with the correct data', async() => {
+        const {waitForFormToLoad, onSubmit, validData} = renderComponent();
+        const form = await waitForFormToLoad();
 
-    it('should display a toast if submission fails', () => {
-        
+        const user = userEvent.setup();
+        await user.type(form.inputName, validData.name)
+        await user.type(form.inputPrice, validData.price);
+        await user.click(form.combobox);
+        const options = screen.getAllByRole('option');
+        await user.click(options[0]);
+        await user.click(form.submitButton);
+        const {id, ...formData} = form.validData,
+        expect(onSubmit).toHaveBeenCalledWith(        const {id, ...formData} = form.validData,
+        )
+
     })
 })

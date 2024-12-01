@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { render, screen } from '@testing-library/react'
 import ProductForm from '../../components/ProductForm'
@@ -33,7 +31,7 @@ describe('ProductForm', () => {
         }
         const validData: FormData = {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            id: 1,
+            id: Product.id,
             name: 'a',
             price: 1,
             categoryId: category.id,
@@ -41,7 +39,6 @@ describe('ProductForm', () => {
 
         return {
             onSubmit,
-            validData,
             waitForFormToLoad : async () =>  {
                 await screen.findByRole('form')
                 return {
@@ -157,21 +154,18 @@ describe('ProductForm', () => {
         expect(alertText).toHaveTextContent(errorMessage)        
     })
 
-    // it.skip('should call on Submit with the correct data', async() => {
-    //     const {waitForFormToLoad, onSubmit, validData} = renderComponent();
-    //     const form = await waitForFormToLoad();
-    //     const user = userEvent.setup();
-    //     await user.type(form.inputName, validData.name)
-    //     await user.type(form.inputPrice, validData.price);
-    //     await user.click(form.combobox);
-    //     const options = screen.getAllByRole('option');
-    //     await user.click(options[0]);
-    //     await user.click(form.submitButton);
-    //     const {id, ...form} = form.validData;
-    //     expect(onSubmit).toHaveBeenCalledWith(form)
-    // })
+    it.only('should call on Submit with the correct data', async() => {
+        const {waitForFormToLoad, onSubmit} = renderComponent();
+        const form = await waitForFormToLoad();
 
-    it('should display a toast if submission fails', () => {
-        
+        const user = userEvent.setup();
+        await user.type(form.inputName, validData.name)
+        await user.type(form.inputPrice, validData.price);
+        await user.click(form.combobox);
+        const options = screen.getAllByRole('option');
+        await user.click(options[0]);
+        await user.click(form.submitButton);
+        expect(onSubmit).toHaveBeenCalledWith(form.validData)
+
     })
 })

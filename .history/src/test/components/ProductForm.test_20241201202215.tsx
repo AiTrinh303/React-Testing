@@ -171,7 +171,7 @@ describe('ProductForm', () => {
     //     expect(onSubmit).toHaveBeenCalledWith(form)
     // })
 
-    it('should display a toast if submission fails', () => {
+    it('should display a toast if submitssion fails', () => {
         
     })
 })

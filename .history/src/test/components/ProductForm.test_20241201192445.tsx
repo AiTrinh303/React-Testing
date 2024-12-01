@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { render, screen } from '@testing-library/react'
 import ProductForm from '../../components/ProductForm'
@@ -21,27 +19,27 @@ describe('ProductForm', () => {
         })
     })
 
+    // const renderComponent = () => {
+    //     const client = new QueryClient({
+    //         defaultOptions: {
+    //             queries: {
+    //                 retry: false
+    //             }
+    //         }
+    //     });
+    //     render(
+    //         <QueryClientProvider client={client}>
+    //             <Theme>
+    //                 <ProductForm onSubmit={vi.fn()}/>
+    //             </Theme>
+    //         </QueryClientProvider>
+    // );
+    // }
+
     const renderComponent = (product?:Product) => {
-        const onSubmit = vi.fn();
-        render (
-            <ProductForm product= {product} onSubmit={onSubmit}/>,
-            {wrapper: AllProviders}
-        )
-        type FormData = {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            [K in keyof Product]: any;
-        }
-        const validData: FormData = {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            id: 1,
-            name: 'a',
-            price: 1,
-            categoryId: category.id,
-        }
+        render (<ProductForm product= {product} onSubmit={vi.fn()}/>,{wrapper: AllProviders})
 
         return {
-            onSubmit,
-            validData,
             waitForFormToLoad : async () =>  {
                 await screen.findByRole('form')
                 return {
@@ -136,8 +134,8 @@ describe('ProductForm', () => {
             },
             {
                 scenario: 'not a number',
-                price: 'abc',
-                errorMessage: /Price is required/i
+                price: abc,
+                errorMessage: /Number must be less than or equal to 1000/i
             },
 
         ]
@@ -155,23 +153,5 @@ describe('ProductForm', () => {
 
         const alertText = screen.getByRole('alert');
         expect(alertText).toHaveTextContent(errorMessage)        
-    })
-
-    // it.skip('should call on Submit with the correct data', async() => {
-    //     const {waitForFormToLoad, onSubmit, validData} = renderComponent();
-    //     const form = await waitForFormToLoad();
-    //     const user = userEvent.setup();
-    //     await user.type(form.inputName, validData.name)
-    //     await user.type(form.inputPrice, validData.price);
-    //     await user.click(form.combobox);
-    //     const options = screen.getAllByRole('option');
-    //     await user.click(options[0]);
-    //     await user.click(form.submitButton);
-    //     const {id, ...form} = form.validData;
-    //     expect(onSubmit).toHaveBeenCalledWith(form)
-    // })
-
-    it('should display a toast if submission fails', () => {
-        
     })
 })
