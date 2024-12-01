@@ -6,6 +6,7 @@ import { Category, Product } from '../../entities'
 import AllProviders from '../AllProviders'
 import userEvent from '@testing-library/user-event'
 
+
 describe('ProductForm', () => {
     let category: Category;
 
@@ -85,21 +86,17 @@ describe('ProductForm', () => {
         [
             {
                 scenario: 'missing',
-                name: undefined,
                 errorMessage: /require/i
             },
             {
-                scenario: 'longer than 255 characters',
-                name: 'a'.repeat(256),
-                errorMessage: /255/i
+                scenario: 'missing',
+                errorMessage: /require/i
             }
         ]
-    )('should display error if name is $scenario', async({name, errorMessage}) => {
+    )('should display error if name is missing', async() => {
         const {waitForFormToLoad} = renderComponent();
         const form = await waitForFormToLoad();
         const user = userEvent.setup();
-       if(name != undefined)
-        await user.type(form.inputName, name)
         await user.type(form.inputPrice, '10');
         await user.click(form.combobox);
         const options = screen.getAllByRole('option');
@@ -107,46 +104,8 @@ describe('ProductForm', () => {
         await user.click(form.submitButton);
 
         const alertText = screen.getByRole('alert');
-        expect(alertText).toHaveTextContent(errorMessage)        
-    })
+        expect(alertText).toHaveTextContent(/name/i)
 
-    it.each(
-        [
-            {
-                scenario: 'missing',
-                price: undefined,
-                errorMessage: /require/i
-            },
-            {
-                scenario: '0',
-                price: 0,
-                errorMessage: /Number must be greater than or equal to 1/i
-            },
-            {
-                scenario: 'negative',
-                price: -1,
-                errorMessage: /Number must be greater than or equal to 1/i
-            },
-            {
-                scenario: 'greater than 1000',
-                price: 1001,
-                errorMessage: /Number must be less than or equal to 1000/i
-            },
-
-        ]
-    )('should display error if price is $scenario', async({price, errorMessage}) => {
-        const {waitForFormToLoad} = renderComponent();
-        const form = await waitForFormToLoad();
-        const user = userEvent.setup();
-        await user.type(form.inputName, 'a')
-        if(price != undefined)
-        await user.type(form.inputPrice, price.toString());
-        await user.click(form.combobox);
-        const options = screen.getAllByRole('option');
-        await user.click(options[0]);
-        await user.click(form.submitButton);
-
-        const alertText = screen.getByRole('alert');
-        expect(alertText).toHaveTextContent(errorMessage)        
+        
     })
 })

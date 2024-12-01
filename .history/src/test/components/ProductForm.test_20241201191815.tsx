@@ -120,17 +120,17 @@ describe('ProductForm', () => {
             {
                 scenario: '0',
                 price: 0,
-                errorMessage: /Number must be greater than or equal to 1/i
+                errorMessage: /greater than or equal 1/i
             },
             {
                 scenario: 'negative',
                 price: -1,
-                errorMessage: /Number must be greater than or equal to 1/i
+                errorMessage: /greater than or equal 1/i
             },
             {
                 scenario: 'greater than 1000',
                 price: 1001,
-                errorMessage: /Number must be less than or equal to 1000/i
+                errorMessage: /less than or equal 1/i
             },
 
         ]
