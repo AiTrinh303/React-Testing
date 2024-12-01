@@ -85,43 +85,8 @@ describe('BrowseProductsPage', () => {
         db.product.deleteMany({where: {id: {in: productIds}}});
     })
 
-//1. TESTING LOADING STATE
-    it('should show loading skeleton when fetching categories',() => {
-    // server.use(http.get('/categories', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/categories');
-    const {getCategoriesSkeleton} = renderComponent();
+
     
-    // const skeleton = screen.getByRole('progressbar', {name: /categories/i});
-    expect(getCategoriesSkeleton()).toBeInTheDocument();
-    })
-    
-    it('should hire the loading skeleton after categories are fetched', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getCategoriesSkeleton);    
-    })
-    
-    it('should show loading skeleton when fetching products', () => {
-    // server.use(http.get('/products', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/products');
-    const {getProductsSkeleton} = renderComponent();
-    
-    // const skeleton = screen.getByRole('progressbar', {name: /products/i});
-    expect(getProductsSkeleton()).toBeInTheDocument();
-    })
-    
-    it('should hire the loading skeleton after products are fetched', async() => {
-    const {getProductsSkeleton} = renderComponent();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getProductsSkeleton);    
-    })
-   
 
 //2. TESTING ERROR STATE 
    it('should not render error but not display categories if categories cannot be fetched', async() => {

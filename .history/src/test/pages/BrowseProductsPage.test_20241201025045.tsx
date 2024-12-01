@@ -86,7 +86,7 @@ describe('BrowseProductsPage', () => {
     })
 
 //1. TESTING LOADING STATE
-    it('should show loading skeleton when fetching categories',() => {
+it('should show loading skeleton when fetching categories',() => {
     // server.use(http.get('/categories', async() => {
     //     await delay ();
     //     return HttpResponse.json([]);

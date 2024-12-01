@@ -86,7 +86,7 @@ describe('BrowseProductsPage', () => {
     })
 
 //1. TESTING LOADING STATE
-    it('should show loading skeleton when fetching categories',() => {
+it('should show loading skeleton when fetching categories',() => {
     // server.use(http.get('/categories', async() => {
     //     await delay ();
     //     return HttpResponse.json([]);
@@ -122,6 +122,7 @@ describe('BrowseProductsPage', () => {
     await waitForElementToBeRemoved(getProductsSkeleton);    
     })
    
+    
 
 //2. TESTING ERROR STATE 
    it('should not render error but not display categories if categories cannot be fetched', async() => {

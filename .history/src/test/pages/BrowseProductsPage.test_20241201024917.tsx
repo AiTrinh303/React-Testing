@@ -1,12 +1,13 @@
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import BrowseProducts from '../../pages/BrowseProductsPage'
 import { Theme } from '@radix-ui/themes';
+import { server } from '../mocks/server';
 import userEvent from '@testing-library/user-event';
 import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
 import { simulateDelay, simulateError } from '../utils';
-
+import { isAsync } from 'zod';
 
 
 //1. Loading State
@@ -56,6 +57,7 @@ import { simulateDelay, simulateError } from '../utils';
 
 // const server = setupServer(...handlers);
 
+
 describe('BrowseProductsPage', () => {
     const categories: Category[] = [];
     const products: Product[] = [];
@@ -84,44 +86,6 @@ describe('BrowseProductsPage', () => {
         const productIds = products.map(p => p.id);
         db.product.deleteMany({where: {id: {in: productIds}}});
     })
-
-//1. TESTING LOADING STATE
-    it('should show loading skeleton when fetching categories',() => {
-    // server.use(http.get('/categories', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/categories');
-    const {getCategoriesSkeleton} = renderComponent();
-    
-    // const skeleton = screen.getByRole('progressbar', {name: /categories/i});
-    expect(getCategoriesSkeleton()).toBeInTheDocument();
-    })
-    
-    it('should hire the loading skeleton after categories are fetched', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getCategoriesSkeleton);    
-    })
-    
-    it('should show loading skeleton when fetching products', () => {
-    // server.use(http.get('/products', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/products');
-    const {getProductsSkeleton} = renderComponent();
-    
-    // const skeleton = screen.getByRole('progressbar', {name: /products/i});
-    expect(getProductsSkeleton()).toBeInTheDocument();
-    })
-    
-    it('should hire the loading skeleton after products are fetched', async() => {
-    const {getProductsSkeleton} = renderComponent();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getProductsSkeleton);    
-    })
-   
 
 //2. TESTING ERROR STATE 
    it('should not render error but not display categories if categories cannot be fetched', async() => {
@@ -253,6 +217,42 @@ describe('BrowseProductsPage', () => {
         selectCategory
     }
 }
+//1. TESTING LOADING STATE
+it('should show loading skeleton when fetching categories',() => {
+// server.use(http.get('/categories', async() => {
+//     await delay ();
+//     return HttpResponse.json([]);
+// }))
+simulateDelay('/categories');
+const {getCategoriesSkeleton} = renderComponent();
+
+// const skeleton = screen.getByRole('progressbar', {name: /categories/i});
+expect(getCategoriesSkeleton()).toBeInTheDocument();
+})
+
+it('should hire the loading skeleton after categories are fetched', async() => {
+const {getCategoriesSkeleton} = renderComponent();
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+await waitForElementToBeRemoved(getCategoriesSkeleton);    
+})
+
+it('should show loading skeleton when fetching products', () => {
+// server.use(http.get('/products', async() => {
+//     await delay ();
+//     return HttpResponse.json([]);
+// }))
+simulateDelay('/products');
+const {getProductsSkeleton} = renderComponent();
+
+// const skeleton = screen.getByRole('progressbar', {name: /products/i});
+expect(getProductsSkeleton()).toBeInTheDocument();
+})
+
+it('should hire the loading skeleton after products are fetched', async() => {
+const {getProductsSkeleton} = renderComponent();
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+await waitForElementToBeRemoved(getProductsSkeleton);    
+})
 
 })
 
