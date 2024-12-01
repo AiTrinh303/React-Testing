@@ -77,7 +77,7 @@ describe('ProductForm', () => {
     })
 
     it('should put focus on the name field', async () => {
-        const {waitForFormToLoad} = renderComponent();
+        const {waitForFormToLoads} = renderComponent();
         const {inputName} = await waitForFormToLoad();
         expect(inputName).toHaveFocus();
     })

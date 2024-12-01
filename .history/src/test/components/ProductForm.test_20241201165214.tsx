@@ -42,25 +42,22 @@ describe('ProductForm', () => {
         render (<ProductForm product= {product} onSubmit={vi.fn()}/>,{wrapper: AllProviders})
 
         return {
-            waitForFormToLoad : async () =>  {
-                await screen.findByRole('form')
-                return {
-                    inputName : screen.getByPlaceholderText(/name/i),
-                    inputPrice : screen.getByPlaceholderText(/price/i),
-                    combobox : screen.getByRole('combobox', {name:/category/i})
-                }
-            }       
+            waitForFormToLoad : () =>  screen.findByRole('form'),
+            getInputs: () => {return {
+                inputName : screen.getByPlaceholderText(/name/i),
+                inputPrice : screen.getByPlaceholderText(/price/i),
+                combobox : screen.getByRole('combobox', {name:/category/i})
+            }}
         }
     }
-
-    it('should render form field', async () => {
-        const { waitForFormToLoad} = renderComponent()
-        const {inputName, inputPrice, combobox} = await waitForFormToLoad();
+    it('should render form field', async() => {
+        const { getInputs, waitForFormToLoad} = renderComponent()
+        await waitForFormToLoad();
+        const {inputName, inputPrice, combobox} = getInputs()
         expect(inputName).toBeInTheDocument();
         expect(inputPrice).toBeInTheDocument();
         expect(combobox).toBeInTheDocument();
     })
-
     it('should populate form fields when editing a product', async() => {
         const product: Product = {
             id:1,
@@ -69,16 +66,17 @@ describe('ProductForm', () => {
             categoryId: category.id
         }
 
-        const { waitForFormToLoad} = renderComponent(product)
-        const {inputName, inputPrice, combobox} = await waitForFormToLoad();
+        const { getInputs, waitForFormToLoad} = renderComponent(product)
+        await waitForFormToLoad();
+        const {inputName, inputPrice, combobox} = getInputs()
         expect(inputName).toHaveValue(product.name);
         expect(inputPrice).toHaveValue(product.price.toString())
         expect(combobox).toBeInTheDocument();
     })
 
     it('should put focus on the name field', async () => {
-        const {waitForFormToLoad} = renderComponent();
-        const {inputName} = await waitForFormToLoad();
-        expect(inputName).toHaveFocus();
+        const {waitForFormToLoad, getInputs} = renderComponent();
+        await waitForFormToLoad();
+        const {inputName}
     })
 })

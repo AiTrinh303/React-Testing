@@ -51,16 +51,14 @@ describe('ProductForm', () => {
                 }
             }       
         }
-    }
-
-    it('should render form field', async () => {
+    it('should render form field', async() => {
         const { waitForFormToLoad} = renderComponent()
-        const {inputName, inputPrice, combobox} = await waitForFormToLoad();
+        const {inputName, inputPrice, combobox}waitForFormToLoad();
+         = getInputs()
         expect(inputName).toBeInTheDocument();
         expect(inputPrice).toBeInTheDocument();
         expect(combobox).toBeInTheDocument();
     })
-
     it('should populate form fields when editing a product', async() => {
         const product: Product = {
             id:1,
@@ -69,16 +67,18 @@ describe('ProductForm', () => {
             categoryId: category.id
         }
 
-        const { waitForFormToLoad} = renderComponent(product)
-        const {inputName, inputPrice, combobox} = await waitForFormToLoad();
+        const { getInputs, waitForFormToLoad} = renderComponent(product)
+        await waitForFormToLoad();
+        const {inputName, inputPrice, combobox} = getInputs()
         expect(inputName).toHaveValue(product.name);
         expect(inputPrice).toHaveValue(product.price.toString())
         expect(combobox).toBeInTheDocument();
     })
 
     it('should put focus on the name field', async () => {
-        const {waitForFormToLoad} = renderComponent();
-        const {inputName} = await waitForFormToLoad();
+        const {waitForFormToLoad, getInputs} = renderComponent();
+        await waitForFormToLoad();
+        const {inputName} = getInputs();
         expect(inputName).toHaveFocus();
     })
 })

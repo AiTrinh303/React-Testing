@@ -69,16 +69,18 @@ describe('ProductForm', () => {
             categoryId: category.id
         }
 
-        const { waitForFormToLoad} = renderComponent(product)
-        const {inputName, inputPrice, combobox} = await waitForFormToLoad();
+        const { getInputs, waitForFormToLoad} = renderComponent(product)
+        await waitForFormToLoad();
+        const {inputName, inputPrice, combobox} = getInputs()
         expect(inputName).toHaveValue(product.name);
         expect(inputPrice).toHaveValue(product.price.toString())
         expect(combobox).toBeInTheDocument();
     })
 
     it('should put focus on the name field', async () => {
-        const {waitForFormToLoad} = renderComponent();
-        const {inputName} = await waitForFormToLoad();
+        const {waitForFormToLoad, getInputs} = renderComponent();
+        await waitForFormToLoad();
+        const {inputName} = getInputs();
         expect(inputName).toHaveFocus();
     })
 })
