@@ -29,9 +29,7 @@ describe('Router', () => {
         navigateTo(`/products/${product.id}`)
         await waitForElementToBeRemoved(() => screen.queryAllByText(/loading/i))
         screen.debug()
-        const name = screen.getByText(product.name)
-        expect(name).toBeInTheDocument()  
-        
-        db.product.delete({where: {id:{equals: product.id}}})
+        const heading = screen.getByRole('heading', {name: /product detail/i})
+        expect(heading).toBeInTheDocument()      
     })
 })

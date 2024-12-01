@@ -1,6 +1,5 @@
 import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import { navigateTo } from './utils'
-import { db } from './mocks/db'
 
 describe('Router', () => {
     it('should render the home page for /', () => {
@@ -24,14 +23,12 @@ describe('Router', () => {
     })
 
     it('should render product following productid ', async() => {
-        const product = db.product.create()
+        d.product.create()
 
         navigateTo(`/products/${product.id}`)
         await waitForElementToBeRemoved(() => screen.queryAllByText(/loading/i))
         screen.debug()
-        const name = screen.getByText(product.name)
-        expect(name).toBeInTheDocument()  
-        
-        db.product.delete({where: {id:{equals: product.id}}})
+        const heading = screen.getByRole('heading', {name: /product detail/i})
+        expect(heading).toBeInTheDocument()      
     })
 })

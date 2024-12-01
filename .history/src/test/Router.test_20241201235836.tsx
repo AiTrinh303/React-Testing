@@ -32,6 +32,6 @@ describe('Router', () => {
         const name = screen.getByText(product.name)
         expect(name).toBeInTheDocument()  
         
-        db.product.delete({where: {id:{equals: product.id}}})
+        db.product.delete({where})
     })
 })

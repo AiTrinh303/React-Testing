@@ -30,8 +30,6 @@ describe('Router', () => {
         await waitForElementToBeRemoved(() => screen.queryAllByText(/loading/i))
         screen.debug()
         const name = screen.getByText(product.name)
-        expect(name).toBeInTheDocument()  
-        
-        db.product.delete({where: {id:{equals: product.id}}})
+        expect(name).toBeInTheDocument()      
     })
 })
