@@ -43,8 +43,10 @@ describe('QuantitySelector', () => {
         await user.click(addToCartButton);
         const {statusQuantityText, decrementButton, incrementButton} = getQuantityControl()        
         expect(statusQuantityText).toHaveTextContent(/1/i);             
-        expect(decrementButton).toBeInTheDocument();            
+        expect(decrementButton).toBeInTheDocument();
+            
         expect(incrementButton).toBeInTheDocument();
+
         expect(addToCartButton).not.toBeInTheDocument()
     })
 

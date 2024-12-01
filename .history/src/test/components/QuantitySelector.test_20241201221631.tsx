@@ -21,6 +21,12 @@ describe('QuantitySelector', () => {
         const  addToCartButton = screen.getByRole('button', {name: /Add to Cart/i})
 
         const user = userEvent.setup()  
+        
+        const statusQuantityText = screen.queryByRole('status')
+
+        const decrementButton = screen.queryByRole('button', {name: '-'})
+
+        const incrementButton = screen.queryByRole('button', {name: '+'})
       
         return {
             addToCartButton,
@@ -40,11 +46,15 @@ describe('QuantitySelector', () => {
 
     it('should add the product to the cart', async() => {
         const { addToCartButton, user, getQuantityControl} = renderComponent(); 
+        const {statusQuantityText, decrementButton, incrementButton} = getQuantityControl()
         await user.click(addToCartButton);
-        const {statusQuantityText, decrementButton, incrementButton} = getQuantityControl()        
-        expect(statusQuantityText).toHaveTextContent(/1/i);             
-        expect(decrementButton).toBeInTheDocument();            
+        
+        expect(statusQuantityText).toHaveTextContent('1');
+             
+        expect(decrementButton).toBeInTheDocument();
+            
         expect(incrementButton).toBeInTheDocument();
+
         expect(addToCartButton).not.toBeInTheDocument()
     })
 

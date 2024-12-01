@@ -40,11 +40,15 @@ describe('QuantitySelector', () => {
 
     it('should add the product to the cart', async() => {
         const { addToCartButton, user, getQuantityControl} = renderComponent(); 
+        const {statusQuantityText, decrementButton, incrementButton} = getQuantityControl()
         await user.click(addToCartButton);
-        const {statusQuantityText, decrementButton, incrementButton} = getQuantityControl()        
-        expect(statusQuantityText).toHaveTextContent(/1/i);             
-        expect(decrementButton).toBeInTheDocument();            
+        
+        expect(statusQuantityText).toHaveTextContent('1');
+             
+        expect(decrementButton).toBeInTheDocument();
+            
         expect(incrementButton).toBeInTheDocument();
+
         expect(addToCartButton).not.toBeInTheDocument()
     })
 
