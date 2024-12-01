@@ -35,8 +35,5 @@ describe('Router', () => {
         db.product.delete({where: {id:{equals: product.id}}})
     })
 
-    it('should render not found page for invalid routes', () => {
-        navigateTo('/invalid-router')
-        expect(screen.getByText(/not found/i)).toBeInTheDocument()
-    })
+    it
 })

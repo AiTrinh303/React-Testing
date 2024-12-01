@@ -37,6 +37,6 @@ describe('Router', () => {
 
     it('should render not found page for invalid routes', () => {
         navigateTo('/invalid-router')
-        expect(screen.getByText(/not found/i)).toBeInTheDocument()
+        screen.getByText(/not found)
     })
 })
