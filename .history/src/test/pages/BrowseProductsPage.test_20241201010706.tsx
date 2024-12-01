@@ -8,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
-import { simulateDelay, simulateError } from '../utils';
 
 
 //1. Loading State
@@ -88,53 +87,49 @@ describe('BrowseProductsPage', () => {
         )
         return {
             getProductsSkeleton: () => screen.getByRole('progressbar', {name: /products/i}),
-            getCategoriesSkeleton: () => screen.getByRole('progressbar', {name: /categories/i})
         }
     }
-//1. Loading State:
+//1. Loading State with skeleton categories and products
    it('should show loading skeleton when fetching categories',() => {
-    // server.use(http.get('/categories', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/categories');
-    const {getCategoriesSkeleton} = renderComponent();
+    server.use(http.get('/categories', async() => {
+        await delay ();
+        return HttpResponse.json([]);
+    }))
+    renderComponent();
 
-    // const skeleton = screen.getByRole('progressbar', {name: /categories/i});
-    expect(getCategoriesSkeleton()).toBeInTheDocument();
+    const skeleton = screen.getByRole('progressbar', {name: /categories/i});
+    expect(skeleton).toBeInTheDocument();
    })
 
    it('should hire the loading skeleton after categories are fetched', async() => {
-    const {getCategoriesSkeleton} = renderComponent();
+    renderComponent();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getCategoriesSkeleton);    
+    await waitForElementToBeRemoved(() => screen.getByRole('progressbar', {name: / categories/i}));    
    })
 
    it('should show loading skeleton when fetching products', () => {
-    // server.use(http.get('/products', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/products');
+    server.use(http.get('/products', async() => {
+        await delay ();
+        return HttpResponse.json([]);
+    }))
     const {getProductsSkeleton} = renderComponent();
 
-    // const skeleton = screen.getByRole('progressbar', {name: /products/i});
-    expect(getProductsSkeleton()).toBeInTheDocument();
+    const skeleton = screen.getByRole('progressbar', {name: /products/i});
+    expect(skeleton).toBeInTheDocument();
    })
 
    it('should hire the loading skeleton after products are fetched', async() => {
-    const {getProductsSkeleton} = renderComponent();
+    renderComponent();
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await waitForElementToBeRemoved(getProductsSkeleton);    
+    await waitForElementToBeRemovedgetProductsSkeleton);    
    })
 
 
 //2. Error State   
    it('should not render error but not display categories if categories cannot be fetched', async() => {
-        // server.use(http.get('/categories', () => HttpResponse.error()));
-        simulateError('/categories');
-        const {getProductsSkeleton} = renderComponent();
-        await waitForElementToBeRemoved(getProductsSkeleton);
+        server.use(http.get('/categories', () => HttpResponse.error()));
+        renderComponent();
+        await waitForElementToBeRemoved(() => screen.queryByRole('progressbar', {name: /categories/i}));
         const errorMessage = screen.queryByText(/Error:/i);
         expect(errorMessage).not.toBeInTheDocument();
        const box = screen.queryByRole('combobox', {name: /category/i});
@@ -142,8 +137,7 @@ describe('BrowseProductsPage', () => {
    })
 
    it('should render error if products cannot be fetched ', async() => {
-    // server.use(http.get('/products', () => HttpResponse.error()));
-    simulateError('/products');
+    server.use(http.get('/products', () => HttpResponse.error()));
     renderComponent();
     const errorMessage = await screen.findByText(/Error:/i);
     expect(errorMessage).toBeInTheDocument();    
@@ -175,7 +169,9 @@ describe('BrowseProductsPage', () => {
 
     products.forEach((product) => {
         expect(screen.getByText(product.name)).toBeInTheDocument();
-    })    
+    })
+    
    });
+
 })
 

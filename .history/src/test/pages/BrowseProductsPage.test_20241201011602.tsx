@@ -8,7 +8,6 @@ import userEvent from '@testing-library/user-event';
 import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
-import { simulateDelay, simulateError } from '../utils';
 
 
 //1. Loading State
@@ -91,13 +90,12 @@ describe('BrowseProductsPage', () => {
             getCategoriesSkeleton: () => screen.getByRole('progressbar', {name: /categories/i})
         }
     }
-//1. Loading State:
+//1. Loading State with skeleton categories and products
    it('should show loading skeleton when fetching categories',() => {
-    // server.use(http.get('/categories', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/categories');
+    server.use(http.get('/categories', async() => {
+        await delay ();
+        return HttpResponse.json([]);
+    }))
     const {getCategoriesSkeleton} = renderComponent();
 
     // const skeleton = screen.getByRole('progressbar', {name: /categories/i});
@@ -111,11 +109,10 @@ describe('BrowseProductsPage', () => {
    })
 
    it('should show loading skeleton when fetching products', () => {
-    // server.use(http.get('/products', async() => {
-    //     await delay ();
-    //     return HttpResponse.json([]);
-    // }))
-    simulateDelay('/products');
+    server.use(http.get('/products', async() => {
+        await delay ();
+        return HttpResponse.json([]);
+    }))
     const {getProductsSkeleton} = renderComponent();
 
     // const skeleton = screen.getByRole('progressbar', {name: /products/i});
@@ -131,8 +128,7 @@ describe('BrowseProductsPage', () => {
 
 //2. Error State   
    it('should not render error but not display categories if categories cannot be fetched', async() => {
-        // server.use(http.get('/categories', () => HttpResponse.error()));
-        simulateError('/categories');
+        server.use(http.get('/categories', () => HttpResponse.error()));
         const {getProductsSkeleton} = renderComponent();
         await waitForElementToBeRemoved(getProductsSkeleton);
         const errorMessage = screen.queryByText(/Error:/i);
@@ -142,8 +138,7 @@ describe('BrowseProductsPage', () => {
    })
 
    it('should render error if products cannot be fetched ', async() => {
-    // server.use(http.get('/products', () => HttpResponse.error()));
-    simulateError('/products');
+    server.use(http.get('/products', () => HttpResponse.error()));
     renderComponent();
     const errorMessage = await screen.findByText(/Error:/i);
     expect(errorMessage).toBeInTheDocument();    
@@ -177,5 +172,6 @@ describe('BrowseProductsPage', () => {
         expect(screen.getByText(product.name)).toBeInTheDocument();
     })    
    });
+
 })
 

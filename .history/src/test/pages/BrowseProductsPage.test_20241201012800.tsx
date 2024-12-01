@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { db } from '../mocks/db';
 import { Category, Product } from '../../entities';
 import { CartProvider } from '../../providers/CartProvider';
-import { simulateDelay, simulateError } from '../utils';
+import { simulateDelay } from '../utils';
 
 
 //1. Loading State
@@ -131,8 +131,7 @@ describe('BrowseProductsPage', () => {
 
 //2. Error State   
    it('should not render error but not display categories if categories cannot be fetched', async() => {
-        // server.use(http.get('/categories', () => HttpResponse.error()));
-        simulateError('/categories');
+        server.use(http.get('/categories', () => HttpResponse.error()));
         const {getProductsSkeleton} = renderComponent();
         await waitForElementToBeRemoved(getProductsSkeleton);
         const errorMessage = screen.queryByText(/Error:/i);
@@ -143,7 +142,7 @@ describe('BrowseProductsPage', () => {
 
    it('should render error if products cannot be fetched ', async() => {
     // server.use(http.get('/products', () => HttpResponse.error()));
-    simulateError('/products');
+    simulateError
     renderComponent();
     const errorMessage = await screen.findByText(/Error:/i);
     expect(errorMessage).toBeInTheDocument();    

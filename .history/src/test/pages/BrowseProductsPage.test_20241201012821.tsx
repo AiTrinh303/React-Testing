@@ -132,7 +132,7 @@ describe('BrowseProductsPage', () => {
 //2. Error State   
    it('should not render error but not display categories if categories cannot be fetched', async() => {
         // server.use(http.get('/categories', () => HttpResponse.error()));
-        simulateError('/categories');
+        
         const {getProductsSkeleton} = renderComponent();
         await waitForElementToBeRemoved(getProductsSkeleton);
         const errorMessage = screen.queryByText(/Error:/i);
