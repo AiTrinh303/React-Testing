@@ -6,8 +6,7 @@ import { Theme } from '@radix-ui/themes';
 import { server } from '../mocks/server';
 import userEvent from '@testing-library/user-event';
 import { db } from '../mocks/db';
-import { Category, Product } from '../../entities';
-import { CartProvider } from '../../providers/CartProvider';
+import { Category } from '../../entities';
 
 
 //1. Loading State
@@ -60,30 +59,24 @@ import { CartProvider } from '../../providers/CartProvider';
 
 describe('BrowseProductsPage', () => {
     const categories: Category[] = [];
-    const products: Product[] = [];
+    const
 
     beforeAll(() => {
-        [1,2].forEach((item) => {
-            categories.push(db.category.create({name: 'Category ' + item}));
-            products.push(db.product.create());
+        [1,2].forEach(() => {
+            categories.push(db.category.create());
         })
     })
     
     afterAll(() => {
         const categoryIds = categories.map(c => c.id);
         db.category.deleteMany({where: {id: {in: categoryIds}}});
-
-        const productIds = products.map(p => p.id);
-        db.product.deleteMany({where: {id: {in: productIds}}});
     })
 
     const renderComponent = () => {
         render (
-           <CartProvider>
-                <Theme>
-                    <BrowseProducts />
-                </Theme>
-           </CartProvider>
+            <Theme>
+                <BrowseProducts />
+            </Theme>
         )
     }
 //1. Loading State with skeleton categories and products
@@ -143,15 +136,11 @@ describe('BrowseProductsPage', () => {
 //3. Data Rendered
    it('should render list of categories', async () => {
     renderComponent();
-
     const combobox = await screen.findByRole('combobox');
     expect(combobox).toBeInTheDocument();
-
     const user = userEvent.setup();
     await user.click(combobox);
-
     const options = await screen.findAllByRole('option');
-
     expect(options.length).toBeGreaterThan(0);
     expect(options[0]).toHaveTextContent(/all/i);
     categories.forEach(category => {
@@ -159,14 +148,8 @@ describe('BrowseProductsPage', () => {
     })
    })
 
-   it('should render list of products', async() => {
+   it.only('should render list of products', async () => {
     renderComponent();
-
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar', {name: /products/i}));
-
-    products.forEach((product) => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
-    })
     
    });
 

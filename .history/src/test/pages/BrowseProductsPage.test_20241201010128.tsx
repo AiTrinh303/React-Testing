@@ -64,7 +64,7 @@ describe('BrowseProductsPage', () => {
 
     beforeAll(() => {
         [1,2].forEach((item) => {
-            categories.push(db.category.create({name: 'Category ' + item}));
+            categories.push(db.category.create({name: 'Categ'}));
             products.push(db.product.create());
         })
     })

@@ -63,8 +63,8 @@ describe('BrowseProductsPage', () => {
     const products: Product[] = [];
 
     beforeAll(() => {
-        [1,2].forEach((item) => {
-            categories.push(db.category.create({name: 'Category ' + item}));
+        [1,2].forEach(() => {
+            categories.push(db.category.create());
             products.push(db.product.create());
         })
     })

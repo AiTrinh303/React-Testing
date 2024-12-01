@@ -63,8 +63,8 @@ describe('BrowseProductsPage', () => {
     const products: Product[] = [];
 
     beforeAll(() => {
-        [1,2].forEach((item) => {
-            categories.push(db.category.create({name: 'Category ' + item}));
+        [1,2].forEach(() => {
+            categories.push(db.category.create());
             products.push(db.product.create());
         })
     })
@@ -159,13 +159,11 @@ describe('BrowseProductsPage', () => {
     })
    })
 
-   it('should render list of products', async() => {
+   it('should render list of products', () => {
     renderComponent();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar', {name: /products/i}));
-
     products.forEach((product) => {
-        expect(screen.getByText(product.name)).toBeInTheDocument();
+        expect(await screen.findByText(product.name)).toBeInTheDocument();
     })
     
    });
