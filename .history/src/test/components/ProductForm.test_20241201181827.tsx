@@ -95,7 +95,7 @@ describe('ProductForm', () => {
         await user.click(form.submitButton);
 
         const alertText = screen.getByRole('alert');
-        expect(alertText).toHaveTextContent(/name/i)
+        expect(alertText).toHaveTextContent(/name)
 
         
     })

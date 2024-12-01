@@ -48,8 +48,7 @@ describe('ProductForm', () => {
                 return {
                     inputName : screen.getByPlaceholderText(/name/i),
                     inputPrice : screen.getByPlaceholderText(/price/i),
-                    combobox : screen.getByRole('combobox', {name:/category/i}),
-                    submitButton: screen.getByRole('button', {name: /submit/i})
+                    combobox : screen.getByRole('combobox', {name:/category/i})
                 }
             }       
         }
@@ -90,13 +89,7 @@ describe('ProductForm', () => {
         const user = userEvent.setup();
         await user.type(form.inputPrice, '10');
         await user.click(form.combobox);
-        const options = screen.getAllByRole('option');
-        await user.click(options[0]);
-        await user.click(form.submitButton);
-
-        const alertText = screen.getByRole('alert');
-        expect(alertText).toHaveTextContent(/name/i)
-
+        const options
         
     })
 })
